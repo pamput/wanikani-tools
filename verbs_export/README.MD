@@ -7,3 +7,5 @@ A simple python script that generates a file called `output.html` containing all
 ```bash
 python verbs-to-html.py V2_WK_API_TOKEN
 ```
+
+Requires python markdown: https://github.com/Python-Markdown/markdown
