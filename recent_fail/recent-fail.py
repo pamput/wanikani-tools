@@ -2,7 +2,6 @@ import os
 import sys
 from datetime import datetime, timedelta
 
-import markdown
 import requests
 
 token = sys.argv[1]
@@ -83,13 +82,11 @@ while subject_request['pages']['next_url']:
     kanji.extend(response[0])
     vocabulary.extend(response[1])
 
-
-kanji_markdown_code = '| **Kanji** | **Reading** | **Meaning** |\n'
-kanji_markdown_code += '| ---- | ---- | ---- |\n'
+kanji_markdown_code = ''
 
 for v in kanji:
-    reading = ', '.join([str(x['reading']) for x in v['data']['readings']])
-    meaning = ', '.join([str(x['meaning']) for x in v['data']['meanings']])
+    reading = ', '.join([str(x['reading']) for x in v['data']['readings'] if str(x['reading']) != 'None'])
+    meaning = ', '.join([str(x['meaning']) for x in v['data']['meanings'] if str(x['meaning']) != 'None'])
 
     data = {
         'slug': v['data']['slug'],
@@ -97,15 +94,19 @@ for v in kanji:
         'meaning': meaning,
     }
 
-    kanji_markdown_code += '| {slug} | {reading} | {meaning} |\n'.format(**data)
+    kanji_markdown_code += '''
+        <tr>
+            <td><span class="kanji"> {slug} </span></td>
+            <td><span class="reading"> {reading} </span></td>
+            <td><span class="meaning"> {meaning} </span></td>
+        </tr>
+    '''.format(**data)
 
-
-vocabulary_markdown_code = '| **Kanji** | **Reading** | **Meaning** |\n'
-vocabulary_markdown_code += '| ---- | ---- | ---- |\n'
+vocabulary_markdown_code = ''
 
 for v in vocabulary:
-    reading = ', '.join([str(x['reading']) for x in v['data']['readings']])
-    meaning = ', '.join([str(x['meaning']) for x in v['data']['meanings']])
+    reading = ', '.join([str(x['reading']) for x in v['data']['readings'] if str(x['reading']) != 'None'])
+    meaning = ', '.join([str(x['meaning']) for x in v['data']['meanings'] if str(x['meaning']) != 'None'])
 
     data = {
         'slug': v['data']['slug'],
@@ -113,16 +114,19 @@ for v in vocabulary:
         'meaning': meaning,
     }
 
-    vocabulary_markdown_code += '| {slug} | {reading} | {meaning} |\n'.format(**data)
-
+    vocabulary_markdown_code += '''
+        <tr>
+            <td><span class="kanji"> {slug} </span></td>
+            <td><span class="reading"> {reading} </span></td>
+            <td><span class="meaning"> {meaning} </span></td>
+        </tr>
+    '''.format(**data)
 
 with open(desktop_output, 'w+', encoding="utf-8") as html_file:
     template = open(os.path.join(sys.path[0], 'template.html'), 'r').read()
-    kanji_markdown_table = markdown.markdown(kanji_markdown_code, extensions=['markdown.extensions.tables'])
-    vocabulary_markdown_table = markdown.markdown(vocabulary_markdown_code, extensions=['markdown.extensions.tables'])
 
     html_file.write(
-        template.replace("{kanji}", kanji_markdown_table).replace("{vocabulary}", vocabulary_markdown_table)
+        template.replace("{kanji}", kanji_markdown_code).replace("{vocabulary}", vocabulary_markdown_code)
     )
 
 print("Done: " + desktop_output)

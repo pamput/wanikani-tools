@@ -7,15 +7,63 @@
     <script>
         $(function () {
             $("table").addClass("table");
+            $("tr")
+                .mouseover(function () {
+                    $(this).find(".reading").removeClass("invisible");
+                    $(this).find(".meaning").removeClass("invisible");
+                })
+                .mouseleave(function () {
+                    $(this).find(".reading").addClass("invisible");
+                    $(this).find(".meaning").addClass("invisible");
+                });
+            $("tr .kanji").addClass("h2");
+            $("tr .reading").addClass("invisible");
+            $("tr .meaning").addClass("invisible");
+            $("td").addClass("align-middle");
         });
     </script>
+
 </head>
 <body>
-<h2>Kanji</h2>
-{kanji}
-<br/>
-<br/>
-<h2>Vocabulary</h2>
-{vocabulary}
+
+<div class="container">
+    <div class="row">
+        <h2>Kanji</h2>
+    </div>
+    <div class="row">
+        <table>
+            <thead>
+            <tr>
+                <td>Kanji</td>
+                <td>Reading</td>
+                <td>Meaning</td>
+            </tr>
+            </thead>
+            <tbody>
+            {kanji}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="row">
+        <h2>Vocabulary</h2>
+    </div>
+    <div class="row">
+        <table>
+            <thead>
+            <tr>
+                <td>Kanji</td>
+                <td>Reading</td>
+                <td>Meaning</td>
+            </tr>
+            </thead>
+            <tbody>
+            {vocabulary}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
 </body>
 </html>
