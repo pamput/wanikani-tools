@@ -126,7 +126,12 @@ with open(desktop_output, 'w+', encoding="utf-8") as html_file:
     template = open(os.path.join(sys.path[0], 'template.html'), 'r').read()
 
     html_file.write(
-        template.replace("{kanji}", kanji_markdown_code).replace("{vocabulary}", vocabulary_markdown_code)
+        template
+            .replace("{kanji}", kanji_markdown_code)
+            .replace("{vocabulary}", vocabulary_markdown_code)
+            .replace("{kanji_amount}", str(len(kanji)))
+            .replace("{vocabulary_amount}", str(len(vocabulary)))
+
     )
 
 print("Done: " + desktop_output)
