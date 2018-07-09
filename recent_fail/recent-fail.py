@@ -15,9 +15,14 @@ headers = {
     'Authorization': 'Bearer ' + token
 }
 
+level = requests.get(
+    'https://api.wanikani.com/v2/user',
+    headers=headers
+).json()['data']['level']
+
 past_str = (datetime.now() - timedelta(days=7)).isoformat()
 
-review_request = requests.get(
+review_response = requests.get(
     'https://api.wanikani.com/v2/reviews?updated_after={}'.format(past_str),
     headers=headers
 ).json()
@@ -33,15 +38,15 @@ def get_failed_reviews(json):
 
 
 failed_reviews = []
-failed_reviews.extend(get_failed_reviews(review_request))
+failed_reviews.extend(get_failed_reviews(review_response))
 
-while review_request['pages']['next_url']:
-    review_request = requests.get(
-        review_request['pages']['next_url'],
+while review_response['pages']['next_url']:
+    review_response = requests.get(
+        review_response['pages']['next_url'],
         headers=headers
     ).json()
 
-    failed_reviews.extend(get_failed_reviews(review_request))
+    failed_reviews.extend(get_failed_reviews(review_response))
 
 failed_reviews_ids = set()
 failed_reviews_ids.update(map(lambda r: r['data']['subject_id'], failed_reviews))
@@ -52,19 +57,20 @@ subject_request = requests.get(
 ).json()
 
 
-def get_failed_subjects(json):
+def get_failed_subjects(json, level):
     vj = []
     kj = []
     for e in json['data']:
-        if e['object'] == 'vocabulary':
-            vj.append(e)
-        if e['object'] == 'kanji':
-            kj.append(e)
+        if e['data']['level'] < level:
+            if e['object'] == 'vocabulary':
+                vj.append(e)
+            if e['object'] == 'kanji':
+                kj.append(e)
 
     return kj, vj
 
 
-response = get_failed_subjects(subject_request)
+response = get_failed_subjects(subject_request, level)
 
 kanji = []
 kanji.extend(response[0])
@@ -78,44 +84,52 @@ while subject_request['pages']['next_url']:
         headers=headers
     ).json()
 
-    response = (get_failed_subjects(subject_request))
+    response = get_failed_subjects(subject_request, level)
     kanji.extend(response[0])
     vocabulary.extend(response[1])
 
-kanji_markdown_code = ''
+kanji_code = ''
+num = 0
 
 for v in kanji:
+    num += 1
     reading = ', '.join([str(x['reading']) for x in v['data']['readings'] if str(x['reading']) != 'None'])
     meaning = ', '.join([str(x['meaning']) for x in v['data']['meanings'] if str(x['meaning']) != 'None'])
 
     data = {
+        'num': num,
         'slug': v['data']['slug'],
         'reading': reading,
         'meaning': meaning,
     }
 
-    kanji_markdown_code += '''
+    kanji_code += '''
         <tr>
+            <td><span class="num"> {num} </span></td>
             <td><span class="kanji"> {slug} </span></td>
             <td><span class="reading"> {reading} </span></td>
             <td><span class="meaning"> {meaning} </span></td>
         </tr>
     '''.format(**data)
 
-vocabulary_markdown_code = ''
+vocabulary_code = ''
+num = 0
 
 for v in vocabulary:
+    num += 1
     reading = ', '.join([str(x['reading']) for x in v['data']['readings'] if str(x['reading']) != 'None'])
     meaning = ', '.join([str(x['meaning']) for x in v['data']['meanings'] if str(x['meaning']) != 'None'])
 
     data = {
+        'num': num,
         'slug': v['data']['slug'],
         'reading': reading,
         'meaning': meaning,
     }
 
-    vocabulary_markdown_code += '''
+    vocabulary_code += '''
         <tr>
+            <td><span class="num"> {num} </span></td>
             <td><span class="kanji"> {slug} </span></td>
             <td><span class="reading"> {reading} </span></td>
             <td><span class="meaning"> {meaning} </span></td>
@@ -127,8 +141,8 @@ with open(desktop_output, 'w+', encoding="utf-8") as html_file:
 
     html_file.write(
         template
-            .replace("{kanji}", kanji_markdown_code)
-            .replace("{vocabulary}", vocabulary_markdown_code)
+            .replace("{kanji}", kanji_code)
+            .replace("{vocabulary}", vocabulary_code)
             .replace("{kanji_amount}", str(len(kanji)))
             .replace("{vocabulary_amount}", str(len(vocabulary)))
 
