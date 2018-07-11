@@ -7,10 +7,47 @@
     <script>
         $(function () {
             $("table").addClass("table");
+            $("tr")
+                .mouseover(function () {
+                    $(this).find(".reading").removeClass("invisible");
+                    $(this).find(".meaning").removeClass("invisible");
+                })
+                .mouseleave(function () {
+                    $(this).find(".reading").addClass("invisible");
+                    $(this).find(".meaning").addClass("invisible");
+                });
+            $("tr .kanji").addClass("h2");
+            $("tr .reading").addClass("invisible");
+            $("tr .meaning").addClass("invisible");
+            $("td").addClass("align-middle");
         });
     </script>
+
 </head>
 <body>
-{body}
+
+<div class="container">
+    <div class="row">
+        <h2>Verbs ({verbs_amount})</h2>
+    </div>
+    <div class="row">
+        <table>
+            <thead>
+            <tr>
+                <td>#</td>
+                <td>Kanji</td>
+                <td>Reading</td>
+                <td>Meaning</td>
+            </tr>
+            </thead>
+            <tbody>
+            {verbs}
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+
 </body>
 </html>
