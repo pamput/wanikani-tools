@@ -2,9 +2,9 @@
 
 Simple tools for wanikani (https://www.wanikani.com/).
 
-You can un this as simple script or as a flask server.
+You can run this as simple script or as a flask server.
 
-Requires *python 3* with the following modules:
+Requires **python 3** with the following modules:
 
 - requets
 - flask (if running as server)
@@ -17,8 +17,8 @@ python main ACTION V2_TOKEN
 
 `ACTION` can be:
 
-- `verbs`: shows all learned verbs
-- `failed`: shows all failed reviews for the past 7 days
+- `verbs`: shows all verbs up to the user's level
+- `fails`: shows all failed reviews for the past 7 days (ignores subjects of the current level)
 
 ## Run as Flask Server
 
