@@ -1,3 +1,4 @@
 *.iml
 .idea
 output.html
+__pycache__

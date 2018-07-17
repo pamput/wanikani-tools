@@ -25,7 +25,7 @@ def get_recent_fails_html(token):
     kanji_code = ''
     num = 0
 
-    for v in kanji:
+    for v in reversed(kanji):
         num += 1
         reading = ', '.join([str(x['reading']) for x in v['data']['readings'] if str(x['reading']) != 'None'])
         meaning = ', '.join([str(x['meaning']) for x in v['data']['meanings'] if str(x['meaning']) != 'None'])
@@ -49,7 +49,7 @@ def get_recent_fails_html(token):
     vocabulary_code = ''
     num = 0
 
-    for v in vocabulary:
+    for v in reversed(vocabulary):
         num += 1
         reading = ', '.join([str(x['reading']) for x in v['data']['readings'] if str(x['reading']) != 'None'])
         meaning = ', '.join([str(x['meaning']) for x in v['data']['meanings'] if str(x['meaning']) != 'None'])

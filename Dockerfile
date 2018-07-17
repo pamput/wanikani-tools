@@ -1,15 +1,9 @@
-FROM ubuntu:16.04
+FROM python:3.7-alpine
 
-RUN apt-get update -y && \
-    apt-get install -y python3-pip python3-dev
+WORKDIR /usr/src/app
 
+RUN pip install requests flask
 
-WORKDIR /app
+COPY . .
 
-RUN pip3 install --upgrade pip
-RUN pip3 install requests flask
-
-COPY . /app
-
-ENTRYPOINT [ "python3" ]
-CMD [ "app.py" ]
+CMD ["python", "app.py" ]
