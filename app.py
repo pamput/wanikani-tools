@@ -1,5 +1,6 @@
 from flask import Flask
 
+import burned_kanji.burned_kanji as burned
 import recent_fail.recent_fail as fails
 import verbs_export.verbs_to_html as verbs
 
@@ -16,6 +17,13 @@ def do_fails(token):
 @app.route("/<token>/verbs")
 def do_verbs(token):
     return verbs.get_all_verbs(
+        token
+    )
+
+
+@app.route("/<token>/burns")
+def do_burns(token):
+    return burned.get_burned_kanji(
         token
     )
 
