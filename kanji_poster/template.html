@@ -9,6 +9,10 @@
             }
         }
 
+        .hidden {
+            visibility: hidden;
+        }
+
         .kj-container {
             margin: 150px 50px 100px 50px;
             display: block;
@@ -132,16 +136,27 @@
 <div class="container">
     <div class="row">
 
-
         <div class="kj-container">
             <ul class="kj-grid"><!--
                 % for k in kanji:
-                --><li class="kj-element">
+            --><li class="kj-element">
                     <span class="kj-link">
                         <span class="kj-character" lang="ja">${k['kanji']}</span>
                         <ul class="kj-subsection">
                             <li class="kj-reading">${k['reading']}</li>
                             <li class="kj-meaning">${k['meaning']}</li>
+                        </ul>
+                    </span>
+                </li><!--
+                % endfor
+            --><!--
+                % for k in range(50):
+            --><li class="kj-element hidden">
+                    <span class="kj-link">
+                        <span class="kj-character" lang="ja">${k}</span>
+                        <ul class="kj-subsection">
+                            <li class="kj-reading">${k}</li>
+                            <li class="kj-meaning">${k}</li>
                         </ul>
                     </span>
                 </li><!--
