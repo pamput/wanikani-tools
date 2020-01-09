@@ -19,6 +19,8 @@ python main ACTION V2_TOKEN
 
 - `verbs`: shows all verbs up to the user's level
 - `fails`: shows all failed reviews for the past 7 days (ignores subjects of the current level)
+- `burned`: shows all burned kanji
+- `kanji-poster`: generates a kanji poster (all 60 levels)
 
 ## Run as Flask Server
 
@@ -32,8 +34,10 @@ Server will available at http://localhost:5000
 
 Available endpoints:
 
-- `http://localhost:5000/<V2_TOKEN>/fails`: shows all learned verbs
-- `http://localhost:5000/<V2_TOKEN>/verbs`: shows all failed reviews for the past 7 days
+- `http://localhost:5000/fails?token=<V2_TOKEN>`: shows all learned verbs
+- `http://localhost:5000/verbs?token=<V2_TOKEN>`: shows all failed reviews for the past 7 days
+- `http://localhost:5000/burns?token=<V2_TOKEN>`: shows all burned kanji
+- `http://localhost:5000/poster?token=<V2_TOKEN>`: generates a kanji poster (all 60 levels)
 
 ### As a Docker container
 
