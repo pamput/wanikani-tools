@@ -6,8 +6,9 @@ You can run this as simple script or as a flask server.
 
 Requires **python 3** with the following modules:
 
-- requets
+- request
 - flask (if running as server)
+- mako
 
 ## Run as Script
 
