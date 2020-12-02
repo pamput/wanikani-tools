@@ -5,6 +5,7 @@ import burned_kanji.burned_kanji as burned
 import recent_fail.recent_fail as fails
 import verbs_export.verbs_to_html as verbs
 import kanji_poster.kanji_poster as poster
+import kanji_csv.kanji_csv as csv
 
 if len(sys.argv) is not 3:
     raise Exception("USAGE: python main.py {verbs|fails} V2_TOKEN")
@@ -18,7 +19,8 @@ with open(output, 'w+', encoding="utf-8") as html_file:
         'verbs': verbs.get_all_verbs,
         'fails': fails.get_recent_fails_html,
         'burned': burned.get_burned_kanji,
-        'kanji-poster': poster.get_kanji_poster
+        'kanji-poster': poster.get_kanji_poster,
+        'kanji-csv': csv.get_kanji_csv()
     }
 
     html_file.write(actions[action](token))
