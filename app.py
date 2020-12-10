@@ -1,12 +1,13 @@
 from flask import Flask
-from flask import request
 from flask import Response
+from flask import request
 
 import burned_kanji.burned_kanji as burned
+import kanji_csv.kanji_csv as csv
+import kanji_drills.kanji_drills as drills
+import kanji_poster.kanji_poster as poster
 import recent_fail.recent_fail as fails
 import verbs_export.verbs_to_html as verbs
-import kanji_poster.kanji_poster as poster
-import kanji_csv.kanji_csv as csv
 
 app = Flask(__name__)
 
@@ -46,6 +47,15 @@ def do_csv():
             request.args.get('token', type=str)
         ),
         mimetype='text/csv'
+    )
+
+
+@app.route("/drills")
+def do_drills():
+    return drills.get_kanji_drills(
+        request.args.get('token', type=str),
+        level=request.args.get('level', type=int, default=1),
+        size=request.args.get('size', type=int, default=50)
     )
 
 

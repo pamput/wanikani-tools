@@ -1,0 +1,191 @@
+<html lang="ja-jp">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
+          integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <style>
+
+        @media print {
+            body {
+                -webkit-print-color-adjust: exact;
+            }
+        }
+
+        .hidden {
+            visibility: hidden;
+        }
+
+        .kj-container {
+            margin: 50px 50px 50px 50px;
+            display: block;
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+            font-size: 14px;
+            line-height: 20px;
+            color: #333;
+        }
+
+        .kj-grid {
+            margin: 0;
+            font-size: 14px;
+            padding: 0;
+            font-family: "Ubuntu", Helvetica, Arial, sans-serif;
+            display: block;
+            list-style-type: disc;
+            /*margin-block-start: 1em;*/
+            /*margin-block-end: 1em;*/
+            margin-inline-start: 0px;
+            margin-inline-end: 0px;
+            /*padding-inline-start: 40px;*/
+            line-height: 20px;
+            color: #333;
+            text-align: center;
+        }
+
+        .kj-element {
+            display: inline-block;
+            position: relative;
+            width: 116px;
+            color: #ffffff;
+            text-align: center;
+            background-color: #f100a1;
+            background-image: linear-gradient(to bottom, #f0a, #dd0093);
+            background-repeat: repeat-x;
+            border-top: 1px solid #f6c;
+            border-bottom: 1px solid #cc0088;
+            border-left: 1px solid #f6c;
+            line-height: 20px;
+            font-size: 14px;
+            font-family: "Ubuntu", Helvetica, Arial, sans-serif;
+
+        }
+
+        .kj-link {
+            display: block;
+            color: inherit;
+            text-decoration: none;
+            cursor: pointer;
+            text-align: center;
+            font-size: 14px;
+            font-family: "Ubuntu", Helvetica, Arial, sans-serif;
+            list-style-type: disc;
+            padding-bottom: 13px;
+        }
+
+        .kj-character {
+            transition: text-shadow ease-out 0.3s;
+            font-size: 72px;
+            font-weight: bold;
+            line-height: 1.4em;
+            text-shadow: 0 2px 0 rgba(0, 0, 0, 0.3);
+            font-family: "Hiragino Sans", "Hiragino Kaku Gothic Pro", "Meiryo", "Source Han Sans Japanese", "NotoSansCJK", "TakaoPGothic", "Yu Gothic", "ヒラギノ角ゴ Pro W3", "メイリオ", "Osaka", "MS PGothic", "ＭＳ Ｐゴシック", "Noto Sans JP", sans-serif;
+            color: inherit;
+            cursor: pointer;
+            text-align: center;
+            list-style-type: disc;
+        }
+
+        .kj-subsection {
+            margin: 0;
+            padding-bottom: 10px;
+            font-size: 14px;
+            padding: 0;
+            font-family: "Ubuntu", Helvetica, Arial, sans-serif;
+            list-style-type: circle;
+            margin-block-start: 0px;
+            margin-block-end: 0px;
+            display: block;
+            margin-inline-start: 0px;
+            margin-inline-end: 0px;
+            /*padding-inline-start: 40px;*/
+            color: inherit;
+            text-align: center;
+            line-height: 20px;
+        }
+
+        .kj-reading {
+            transition: text-shadow ease-out 0.3s;
+            display: block;
+            font-weight: 400;
+            line-height: 1.3em;
+            text-shadow: 0 1px 0 rgba(0, 0, 0, 0.3);
+            text-align: -webkit-match-parent;
+            font-size: 14px;
+            font-family: "Ubuntu", Helvetica, Arial, sans-serif;
+            list-style-type: circle;
+            color: inherit;
+            cursor: pointer;
+
+        }
+
+        .kj-meaning {
+            font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+            transition: text-shadow ease-out 0.3s;
+            display: block;
+            font-weight: 400;
+            line-height: 1.3em;
+            text-shadow: 0 1px 0 rgba(0, 0, 0, 0.3);
+            text-align: -webkit-match-parent;
+            font-size: 14px;
+            list-style-type: circle;
+            color: inherit;
+            cursor: pointer;
+        }
+    </style>
+
+    <script>
+        $(function () {
+            $(".kj-subsection")
+                .mouseover(function () {
+                    $(this).find(".kj-reading").removeClass("invisible");
+                    $(this).find(".kj-meaning").removeClass("invisible");
+                })
+                .mouseleave(function () {
+                    $(this).find(".kj-reading").addClass("invisible");
+                    $(this).find(".kj-meaning").addClass("invisible");
+                });
+            $(".kj-subsection .kj-reading").addClass("invisible");
+            $(".kj-subsection .kj-meaning").addClass("invisible");
+
+
+
+        });
+    </script>
+
+</head>
+<body>
+
+<div class="container">
+    <div class="row">
+        <span>Level: ${info['level']}/${info['levels']}</span>
+        <span>&nbsp;&nbsp;&nbsp;</span>
+        <a href="${info['prev_level_url']}"><< Prev</a>
+        <span> | </span>
+        <a href="${info['next_level_url']}">Next >></a>
+    </div>
+    <div class="row">
+
+        <div class="kj-container">
+            <ul class="kj-grid"><!--
+                % for k in kanji:
+            --><li class="kj-element">
+                    <span class="kj-link">
+                        <span class="kj-character" lang="ja">${k['kanji']}</span>
+                        <ul class="kj-subsection">
+                            <li class="kj-reading">${k['reading']}</li>
+                            <li class="kj-meaning">${k['meaning']}</li>
+                        </ul>
+                    </span>
+                </li><!--
+                % endfor
+            -->
+            </ul>
+
+        </div>
+
+    </div>
+</div>
+
+
+</body>
+</html>
