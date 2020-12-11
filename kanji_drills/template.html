@@ -17,7 +17,7 @@
         }
 
         .kj-container {
-            margin: 50px 50px 50px 50px;
+            margin: 50px 0px 50px 0px;
             display: block;
             font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
             font-size: 14px;
@@ -137,17 +137,38 @@
         $(function () {
             $(".kj-subsection")
                 .mouseover(function () {
+                    var toggle = $("a.kj-on-off-toggle").data('toggle');
+                    if (toggle) return;
+
                     $(this).find(".kj-reading").removeClass("invisible");
                     $(this).find(".kj-meaning").removeClass("invisible");
                 })
                 .mouseleave(function () {
+                    var toggle = $("a.kj-on-off-toggle").data('toggle');
+                    if (toggle) return;
+
                     $(this).find(".kj-reading").addClass("invisible");
                     $(this).find(".kj-meaning").addClass("invisible");
                 });
+
             $(".kj-subsection .kj-reading").addClass("invisible");
             $(".kj-subsection .kj-meaning").addClass("invisible");
 
+            $("a.kj-on-off-toggle")
+                .data('toggle', false)
+                .click(function() {
+                    var toggle = $(this).data('toggle');
 
+                    if (!toggle) {
+                        $(".kj-subsection .kj-reading").removeClass("invisible");
+                        $(".kj-subsection .kj-meaning").removeClass("invisible");
+                    } else {
+                        $(".kj-subsection .kj-reading").addClass("invisible");
+                        $(".kj-subsection .kj-meaning").addClass("invisible");
+                    }
+
+                    $(this).data('toggle', !toggle);
+                });
 
         });
     </script>
@@ -162,6 +183,8 @@
         <a href="${info['prev_level_url']}"><< Prev</a>
         <span> | </span>
         <a href="${info['next_level_url']}">Next >></a>
+        <span>&nbsp;&nbsp;&nbsp;</span>
+        <a class="kj-on-off-toggle" href="#">ON/OFF</a>
     </div>
     <div class="row">
 

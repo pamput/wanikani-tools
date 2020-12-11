@@ -1,5 +1,5 @@
 *.iml
-*/*.pyc
+**/*.pyc
 .idea
 output.html
 __pycache__
