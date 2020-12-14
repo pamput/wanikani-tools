@@ -31,7 +31,7 @@ def get_kanji_drills(token, level=1, size=50, seed=None):
     }
 
     start = size * (level - 1)
-    stop = min(start + 50, len(kanji))
+    stop = min(start + size, len(kanji))
     kanji = kanji[start:stop]
 
     return Template(
