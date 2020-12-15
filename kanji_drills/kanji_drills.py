@@ -20,11 +20,13 @@ def get_kanji_drills(token, level=1, size=50, seed=None):
         'levels': max_level,
         'next_level_url': 'drills?' + urllib.parse.urlencode({
             'token': token,
-            'level': level + 1 if level + 1 <= max_level else max_level
+            'level': level + 1 if level + 1 <= max_level else max_level,
+            'size': size
         }),
         'prev_level_url': 'drills?' + urllib.parse.urlencode({
             'token': token,
-            'level': level - 1 if level - 1 > 0 else 1
+            'level': level - 1 if level - 1 > 0 else 1,
+            'size': size
         }),
         'total': len(kanji),
         'size': size
