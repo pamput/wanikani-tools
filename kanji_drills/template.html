@@ -139,14 +139,16 @@
             $(".kj-element")
                 .mouseover(function () {
                     var toggle = $("a.kj-on-off-toggle").data('toggle');
-                    if (toggle) return;
+                    var mouseover = $(".kj-mouseover-toggle").is(':checked');
+                    if (toggle || !mouseover) return;
 
                     $(this).find(".kj-reading").removeClass("invisible");
                     $(this).find(".kj-meaning").removeClass("invisible");
                 })
                 .mouseleave(function () {
                     var toggle = $("a.kj-on-off-toggle").data('toggle');
-                    if (toggle) return;
+                    var mouseover = $(".kj-mouseover-toggle").is(':checked');
+                    if (toggle || !mouseover) return;
 
                     $(this).find(".kj-reading").addClass("invisible");
                     $(this).find(".kj-meaning").addClass("invisible");
@@ -179,6 +181,9 @@
 
                 });
 
+            $(".kj-mouseover-toggle")
+                .prop('checked', true);
+
         });
     </script>
 
@@ -188,14 +193,24 @@
 <div class="container">
     <div class="row">
         <span>Level: ${info['level']}/${info['levels']}</span>
-        <span>&nbsp;&nbsp;&nbsp;</span>
+        <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+
         <a href="${info['prev_level_url']}"><< Prev</a>
         <span> | </span>
+
         <a href="${info['next_level_url']}">Next >></a>
-        <span>&nbsp;&nbsp;&nbsp;</span>
+        <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+
         <a class="kj-on-off-toggle" href="#">ON/OFF</a>
-        <span>&nbsp;&nbsp;&nbsp;</span>
+        <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+
         <a class="kj-random" href="#">RAND</a>
+        <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+
+        <div class="form-check">
+            <input type="checkbox" id="mouse-over" class="form-check-input kj-mouseover-toggle" />
+            <label class="form-check-label" for="mouse-over">MOUSEOVER</label>
+        </div>
     </div>
     <div class="row">
 
