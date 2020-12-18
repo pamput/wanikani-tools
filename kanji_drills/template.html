@@ -136,22 +136,43 @@
 
     <script>
         $(function () {
+
+            var isToggle = function() {
+                return $("a.kj-on-off-toggle").data('toggle');
+            }
+
+            var isMouseOVer = function() {
+                return $(".kj-mouseover-toggle").is(':checked');
+            }
+
             $(".kj-element")
                 .mouseover(function () {
-                    var toggle = $("a.kj-on-off-toggle").data('toggle');
-                    var mouseover = $(".kj-mouseover-toggle").is(':checked');
+                    var toggle = isToggle();
+                    var mouseover = isMouseOVer();
                     if (toggle || !mouseover) return;
 
                     $(this).find(".kj-reading").removeClass("invisible");
                     $(this).find(".kj-meaning").removeClass("invisible");
                 })
                 .mouseleave(function () {
-                    var toggle = $("a.kj-on-off-toggle").data('toggle');
-                    var mouseover = $(".kj-mouseover-toggle").is(':checked');
+                    var toggle = isToggle();
+                    var mouseover = isMouseOVer();
                     if (toggle || !mouseover) return;
 
                     $(this).find(".kj-reading").addClass("invisible");
                     $(this).find(".kj-meaning").addClass("invisible");
+                })
+                .click(function() {
+                    var mouseover = isMouseOVer();
+                    if (mouseover) return;
+
+                    if ($(this).find(".kj-reading").hasClass('invisible')) {
+                        $(this).find(".kj-reading").removeClass("invisible");
+                        $(this).find(".kj-meaning").removeClass("invisible");
+                    } else {
+                        $(this).find(".kj-reading").addClass("invisible");
+                        $(this).find(".kj-meaning").addClass("invisible");
+                    }
                 });
 
             $(".kj-subsection .kj-reading").addClass("invisible");
@@ -160,7 +181,7 @@
             $("a.kj-on-off-toggle")
                 .data('toggle', false)
                 .click(function() {
-                    var toggle = $(this).data('toggle');
+                    var toggle = isToggle();
 
                     if (!toggle) {
                         $(".kj-subsection .kj-reading").removeClass("invisible");
