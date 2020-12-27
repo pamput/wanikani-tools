@@ -62,7 +62,8 @@ def _fix_meaning(r):
         'Number In A Series': 'Number',
         'Ordinal Number Prefix': 'Ordinal Number',
         'Government Office': 'Office',
-        'Flat Objects Counter': 'Flat Objects'
+        'Flat Objects Counter': 'Flat Objects',
+        'Formal Name Title': '-Sama'
     }
 
     return m.get(r, r)
