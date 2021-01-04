@@ -2,12 +2,12 @@ from flask import Flask
 from flask import Response
 from flask import request
 
-import burned_kanji.burned_kanji as burned
-import kanji_csv.kanji_csv as csv
-import kanji_drills.kanji_drills as drills
-import kanji_poster.kanji_poster as poster
-import recent_fail.recent_fail as fails
-import verbs_export.verbs_to_html as verbs
+import app.burned_kanji.burned_kanji as burned
+import app.kanji_csv.kanji_csv as csv
+import app.kanji_drills.kanji_drills as drills
+import app.kanji_poster.kanji_poster as poster
+import app.recent_fail.recent_fail as fails
+import app.verbs_export.verbs_to_html as verbs
 
 app = Flask(__name__)
 

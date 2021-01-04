@@ -1,12 +1,9 @@
 import os
 import sys
 
-import burned_kanji.burned_kanji as burned
-import recent_fail.recent_fail as fails
-import verbs_export.verbs_to_html as verbs
-import kanji_poster.kanji_poster as poster
-import kanji_csv.kanji_csv as csv
-import kanji_drills.kanji_drills as drills
+from app import recent_fail as fails, kanji_drills as drills, burned_kanji as burned, verbs_export as verbs
+from app.kanji_poster import kanji_poster as poster
+from app.kanji_csv import kanji_csv as csv
 
 if len(sys.argv) is not 3:
     raise Exception("USAGE: python main.py {verbs|fails} V2_TOKEN")

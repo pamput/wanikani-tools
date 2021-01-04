@@ -2,8 +2,9 @@ import urllib.parse
 
 import pkg_resources
 from mako.template import Template
+from flask import render_template_string
 
-import utils.wanikani_utils as utils
+import app.utils.wanikani_utils as utils
 
 
 def get_kanji_drills(token, level=1, size=50, seed=None):
@@ -36,9 +37,11 @@ def get_kanji_drills(token, level=1, size=50, seed=None):
     stop = min(start + size, len(kanji))
     kanji = kanji[start:stop]
 
-    return Template(
-        pkg_resources.resource_string(__name__, 'template.html').decode(encoding='utf-8')
-    ).render(kanji=kanji, info=info)
+    return render_template_string(
+        Template(
+            pkg_resources.resource_string(__name__, 'template.html').decode(encoding='utf-8')
+        ).render(kanji=kanji, info=info)
+    )
 
 
 def _get_kanji(token):

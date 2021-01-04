@@ -1,0 +1,63 @@
+<html lang="ja-jp">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
+          integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.20/lodash.min.js"></script>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100;300;400;500;700;900&family=Noto+Serif+JP:wght@500;900&display=swap&subset=japanese" rel="stylesheet">
+
+    <script src="{{ url_for('static', filename='kanji_drills/script.js') }}"></script>
+    <link href="{{ url_for('static', filename='kanji_drills/style.css') }}" rel="stylesheet">
+</head>
+<body>
+
+<div class="container">
+    <div class="row">
+        <span>Level: ${info['level']}/${info['levels']}</span>
+        <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+
+        <a href="${info['prev_level_url']}"><< Prev</a>
+        <span> | </span>
+
+        <a href="${info['next_level_url']}">Next >></a>
+        <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+
+        <a class="kj-on-off-toggle" href="#">ON/OFF</a>
+        <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+
+        <a class="kj-random" href="#">RAND</a>
+        <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+
+        <div class="form-check">
+            <input type="checkbox" id="mouse-over" class="form-check-input kj-mouseover-toggle" />
+            <label class="form-check-label" for="mouse-over">MOUSEOVER</label>
+        </div>
+    </div>
+    <div class="row">
+
+        <div class="kj-container">
+            <ul class="kj-grid"><!--
+                % for k in kanji:
+            --><li class="kj-element">
+                    <span class="kj-link">
+                        <span class="kj-character" lang="ja">${k['kanji']}</span>
+                        <ul class="kj-subsection">
+                            <li class="kj-reading">${k['reading']}</li>
+                            <li class="kj-meaning">${k['meaning']}</li>
+                        </ul>
+                    </span>
+                </li><!--
+                % endfor
+            -->
+            </ul>
+
+        </div>
+
+    </div>
+</div>
+
+
+</body>
+</html>

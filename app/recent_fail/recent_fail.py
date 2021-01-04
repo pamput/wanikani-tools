@@ -3,7 +3,7 @@ from datetime import datetime, timedelta
 import pkg_resources
 import requests
 
-import utils.wanikani_utils as utils
+import app.utils.wanikani_utils as utils
 
 
 def get_recent_fails_html(token):

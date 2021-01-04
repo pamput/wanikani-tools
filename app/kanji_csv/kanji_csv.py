@@ -1,20 +1,32 @@
-import pkg_resources
 import requests
-from mako.template import Template
+import csv
+import io
 
-import utils.wanikani_utils as utils
+import app.utils.wanikani_utils as utils
 
 
-def get_kanji_poster(token):
+def get_kanji_csv(token):
     if token is None:
         raise Exception("No token found")
 
     kanji = _get_kanji(token)
     kanji = _parse_kanji_response(kanji)
+    output = _get_csv(kanji)
 
-    return Template(
-        pkg_resources.resource_string(__name__, 'template.html').decode(encoding='utf-8')
-    ).render(kanji=kanji)
+    return output
+
+
+def _get_csv(kanji):
+    output = io.StringIO()
+    writer = csv.writer(output)
+
+    for k in kanji:
+        row = [
+            k['id'], k['kanji'], k['meaning'], k['reading']
+        ]
+        writer.writerow(row)
+
+    return output.getvalue()
 
 
 def _get_kanji(token):
@@ -41,6 +53,7 @@ def _parse_kanji_response(kanji):
     response = []
     for k in kanji:
         response.append({
+            'id': k['id'],
             'kanji': k['data']['characters'],
             'meaning': next(_fix_meaning(m['meaning']) for m in k['data']['meanings'] if m['primary']),
             'reading': next(r['reading'] for r in k['data']['readings'] if r['primary'])

@@ -1,10 +1,10 @@
 import pkg_resources
 import requests
 
-import utils.wanikani_utils as utils
+import app.utils.wanikani_utils as utils
 
 
-def get_burned_kanji(token):
+def get_all_verbs(token):
     if token is None:
         raise Exception("No token found")
 
@@ -13,15 +13,22 @@ def get_burned_kanji(token):
     levels_str = ",".join(str(i) for i in range(1, level + 1))
 
     r = requests.get(
-        'https://api.wanikani.com/v2/assignments?burned=true&subject_types=kanji&levels={}'.format(levels_str),
+        'https://api.wanikani.com/v2/subjects?types=vocabulary&levels={}'.format(levels_str),
         headers=utils.get_header(token)
     ).json()
 
-    def extract_kanji_ids(json):
-        return map(lambda e: e['data']['subject_id'], json['data'])
+    def extract_verbs(json):
+        verb_list = []
+        for e in json['data']:
+            if 'godan_verb' in e['data']['parts_of_speech']:
+                verb_list.append(e)
+            if 'ichidan_verb' in e['data']['parts_of_speech']:
+                verb_list.append(e)
 
-    kanji_ids = []
-    kanji_ids.extend(extract_kanji_ids(r))
+        return verb_list
+
+    verbs = []
+    verbs.extend(extract_verbs(r))
 
     while r['pages']['next_url']:
         r = requests.get(
@@ -29,25 +36,7 @@ def get_burned_kanji(token):
             headers=utils.get_header(token)
         ).json()
 
-        kanji_ids.extend(extract_kanji_ids(r))
-
-    subject_request = requests.get(
-        'https://api.wanikani.com/v2/subjects?ids={}'.format(','.join(map(str, kanji_ids))),
-        headers=utils.get_header(token)
-    ).json()
-
-    def get_subjects(json):
-        return json['data']
-
-    kanji = get_subjects(subject_request)
-
-    while subject_request['pages']['next_url']:
-        subject_request = requests.get(
-            subject_request['pages']['next_url'],
-            headers=utils.get_header(token)
-        ).json()
-
-        kanji.extend(get_subjects(subject_request))
+        verbs.extend(extract_verbs(r))
 
     raw_code = '''
             <tr>
@@ -60,7 +49,7 @@ def get_burned_kanji(token):
 
     code = ''
     num = 0
-    for v in kanji:
+    for v in verbs:
         num += 1
         reading = ', '.join([str(x['reading']) for x in v['data']['readings']])
         meaning = ', '.join([str(x['meaning']) for x in v['data']['meanings']])
@@ -76,4 +65,4 @@ def get_burned_kanji(token):
 
     template = pkg_resources.resource_string(__name__, 'template.html').decode(encoding='utf-8')
 
-    return template.replace("{kanji}", code).replace("{kanji_amount}", str(len(kanji)))
+    return template.replace("{verbs}", code).replace("{verbs_amount}", str(len(verbs)))
