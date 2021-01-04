@@ -4,14 +4,14 @@ $(function () {
         return $("a.kj-on-off-toggle").data('toggle');
     }
 
-    var isMouseOVer = function() {
+    var isMouseOver = function() {
         return $(".kj-mouseover-toggle").is(':checked');
     }
 
     $(".kj-element")
         .mouseover(function () {
             var toggle = isToggle();
-            var mouseover = isMouseOVer();
+            var mouseover = isMouseOver();
             if (toggle || !mouseover) return;
 
             $(this).find(".kj-reading").removeClass("invisible");
@@ -19,22 +19,36 @@ $(function () {
         })
         .mouseleave(function () {
             var toggle = isToggle();
-            var mouseover = isMouseOVer();
+            var mouseover = isMouseOver();
             if (toggle || !mouseover) return;
 
             $(this).find(".kj-reading").addClass("invisible");
             $(this).find(".kj-meaning").addClass("invisible");
         })
-        .click(function() {
-            var mouseover = isMouseOVer();
+        .click(function(e) {
+            var mouseover = isMouseOver();
             if (mouseover) return;
 
-            if ($(this).find(".kj-reading").hasClass('invisible')) {
-                $(this).find(".kj-reading").removeClass("invisible");
-                $(this).find(".kj-meaning").removeClass("invisible");
+            if (e.ctrlKey) {
+
+                // Toggle selection
+                if ($(this).closest(".kj-element").hasClass('kj-element-selected')) {
+                    $(this).closest(".kj-element").removeClass("kj-element-selected");
+                } else {
+                    $(this).closest(".kj-element").addClass("kj-element-selected");
+                }
+
             } else {
-                $(this).find(".kj-reading").addClass("invisible");
-                $(this).find(".kj-meaning").addClass("invisible");
+
+                // Toggle the definition
+                if ($(this).find(".kj-reading").hasClass('invisible')) {
+                    $(this).find(".kj-reading").removeClass("invisible");
+                    $(this).find(".kj-meaning").removeClass("invisible");
+                } else {
+                    $(this).find(".kj-reading").addClass("invisible");
+                    $(this).find(".kj-meaning").addClass("invisible");
+                }
+
             }
         });
 
@@ -43,7 +57,7 @@ $(function () {
 
     $("a.kj-on-off-toggle")
         .data('toggle', false)
-        .click(function() {
+        .click(function(e) {
             var toggle = isToggle();
 
             if (!toggle) {
@@ -57,8 +71,23 @@ $(function () {
             $(this).data('toggle', !toggle);
         });
 
+    $("a.kj-show-hide-toggle")
+        .data('toggle', false)
+        .click(function() {
+            var toggle = $(this).data('toggle');
+            console.log(toggle);
+
+            if (toggle) {
+                $(".kj-element").not(".kj-element-selected").show();
+            } else {
+                $(".kj-element").not(".kj-element-selected").hide();
+            }
+
+            $(this).data('toggle', !toggle);
+        });
+
     $("a.kj-random")
-        .click(function () {
+        .click(function (e) {
             var kanji = $(".kj-container .kj-element").detach().toArray();
             var newOrder = _.shuffle(kanji);
             $(".kj-grid").append(newOrder);
