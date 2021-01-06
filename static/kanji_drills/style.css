@@ -54,21 +54,11 @@
 }
 
 .kj-element-selected {
-    display: inline-block;
-    position: relative;
-    width: 116px;
-    color: #ffffff;
-    text-align: center;
     background-color: #0058f1;
     background-image: linear-gradient(to bottom, #0073ff, #000bdd);
-    background-repeat: repeat-x;
     border-top: 1px solid #669eff;
     border-bottom: 1px solid #0033cc;
     border-left: 1px solid #669eff;
-    line-height: 20px;
-    font-size: 14px;
-    font-family: "Ubuntu", Helvetica, Arial, sans-serif;
-
 }
 
 .kj-link {

@@ -1,12 +1,23 @@
 $(function () {
 
-    var isToggle = function() {
+    function getParams() {
+        // gets url parameters and builds an object
+        return _.chain(location.search.slice(1).split('&'))
+            .map(function (item) { if (item) { return item.split('='); } })
+            .compact()
+            .fromPairs()
+            .value();
+    }
+
+    function isToggle() {
         return $("a.kj-on-off-toggle").data('toggle');
     }
 
-    var isMouseOver = function() {
+    function isMouseOver() {
         return $(".kj-mouseover-toggle").is(':checked');
     }
+
+    // KANJI BEHAVIOUR
 
     $(".kj-element")
         .mouseover(function () {
@@ -52,8 +63,7 @@ $(function () {
             }
         });
 
-    $(".kj-subsection .kj-reading").addClass("invisible");
-    $(".kj-subsection .kj-meaning").addClass("invisible");
+    // ON/OFF BEHAVIOUR
 
     $("a.kj-on-off-toggle")
         .data('toggle', false)
@@ -71,6 +81,8 @@ $(function () {
             $(this).data('toggle', !toggle);
         });
 
+    // SHOW/HIDE BEHAVIOUR
+
     $("a.kj-show-hide-toggle")
         .data('toggle', false)
         .click(function() {
@@ -86,6 +98,8 @@ $(function () {
             $(this).data('toggle', !toggle);
         });
 
+    // RAND BEHAVIOUR
+
     $("a.kj-random")
         .click(function (e) {
             var kanji = $(".kj-container .kj-element").detach().toArray();
@@ -93,6 +107,47 @@ $(function () {
             $(".kj-grid").append(newOrder);
 
         });
+
+    // ADVANCED MODAL BEHAVIOUR
+
+    $(".kj-show-advanced-modal")
+        .click(function() {
+            var params = getParams();
+
+            $('#adv-level').val(params['level'] || 1);
+            $('#adv-size').val(params['size'] || 50);
+            $('#adv-only').val(decodeURI(params['only']) || '');
+
+            $("#advancedModal").modal("show");
+        });
+
+    $(".kj-get-selected")
+        .click(function() {
+            $('#adv-only').val(
+                $(".kj-element.kj-element-selected .kj-character").text()
+            );
+        });
+
+    $(".kj-advanced-go")
+        .click(function() {
+
+            var token = getParams()['token'];
+
+            var level = $('#adv-level').val();
+            var size = $('#adv-size').val();
+            var only = $('#adv-only').val();
+
+            location.search = '?token=' + token +
+                '&level=' + level +
+                '&size=' + size +
+                '&only=' + only;
+
+            $("#advancedModal").modal("hide");
+        });
+
+
+
+    // MOUSEOVER BEHAVIOUR
 
     $(".kj-mouseover-toggle")
         .prop('checked', false);

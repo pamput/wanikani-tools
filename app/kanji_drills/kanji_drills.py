@@ -7,7 +7,7 @@ from flask import render_template_string
 import app.utils.wanikani_utils as utils
 
 
-def get_kanji_drills(token, level=1, size=50, seed=None):
+def get_kanji_drills(token, level=1, size=50, seed=None, only=None):
     if token is None:
         raise Exception("No token found")
 
@@ -36,6 +36,10 @@ def get_kanji_drills(token, level=1, size=50, seed=None):
     start = size * (level - 1)
     stop = min(start + size, len(kanji))
     kanji = kanji[start:stop]
+
+    if only is not None and only is not '':
+        only = [k for k in only]
+        kanji = [k for k in kanji if k['kanji'] in only]
 
     return render_template_string(
         Template(

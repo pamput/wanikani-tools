@@ -1,12 +1,16 @@
 <html lang="ja-jp">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
-          integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css">
+
     <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.20/lodash.min.js"></script>
+
     <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100;300;400;500;700;900&family=Noto+Serif+JP:wght@500;900&display=swap&subset=japanese" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100;300;400;500;700;900&family=Noto+Serif+JP:wght@500;900&display=swap&subset=japanese"
+          rel="stylesheet">
 
     <script src="{{ url_for('static', filename='kanji_drills/script.js') }}"></script>
     <link href="{{ url_for('static', filename='kanji_drills/style.css') }}" rel="stylesheet">
@@ -31,7 +35,12 @@
         <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
 
         <a class="kj-show-hide-toggle" href="#"
-           title="You can select a kanji by pressing CTRL+CLICK. All NOT selected kanji will show/hide">SHOW/HIDE</a>
+        title="You can select a kanji by pressing CTRL+CLICK. All NOT selected kanji will show/hide">SHOW/HIDE</a>
+        <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+
+        <a class="kj-show-advanced-modal" href="#">
+            ADVANCED
+        </a>
         <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
 
         <div class="form-check">
@@ -46,19 +55,57 @@
                 % for k in kanji:
             --><li class="kj-element">
                     <span class="kj-link">
-                        <span class="kj-character" lang="ja">${k['kanji']}</span>
+                        <span class="kj-character" lang="ja" data-kanji="${k['kanji']}">${k['kanji']}</span>
                         <ul class="kj-subsection">
-                            <li class="kj-reading">${k['reading']}</li>
-                            <li class="kj-meaning">${k['meaning']}</li>
+                            <li class="kj-reading invisible">${k['reading']}</li>
+                            <li class="kj-meaning invisible">${k['meaning']}</li>
                         </ul>
                     </span>
-                </li><!--
+            </li><!--
                 % endfor
             -->
             </ul>
 
         </div>
 
+    </div>
+</div>
+
+
+<div class="modal fade" id="advancedModal" tabindex="-1" aria-labelledby="advancedModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="advancedModalLabel">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="form-group row">
+                        <label for="adv-level">Level</label>
+                        <input type="text" class="form-control" id="adv-level">
+                    </div>
+                    <div class="form-group row">
+                        <label for="adv-size">Size</label>
+                        <input type="text" class="form-control" id="adv-size">
+                    </div>
+                    <div class="form-group row">
+                        <label for="adv-only">Show Only</label>
+                        <textarea class="form-control" id="adv-only" rows="3"></textarea>
+                    </div>
+                    <div class="row float-right">
+                        <button class="btn btn-info kj-get-selected">Get Selected</button>
+                    </div>
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary kj-advanced-go">Apply</button>
+            </div>
+        </div>
     </div>
 </div>
 

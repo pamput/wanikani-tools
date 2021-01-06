@@ -55,7 +55,8 @@ def do_drills():
     return drills.get_kanji_drills(
         request.args.get('token', type=str),
         level=request.args.get('level', type=int, default=1),
-        size=request.args.get('size', type=int, default=50)
+        size=request.args.get('size', type=int, default=50),
+        only=request.args.get('only', type=str)
     )
 
 
