@@ -116,7 +116,7 @@ $(function () {
 
             $('#adv-level').val(params['level'] || 1);
             $('#adv-size').val(params['size'] || 50);
-            $('#adv-only').val(decodeURI(params['only']) || '');
+            $('#adv-only').val(decodeURI(params['only'] || ''));
 
             $("#advancedModal").modal("show");
         });
