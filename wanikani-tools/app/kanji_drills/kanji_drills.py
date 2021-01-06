@@ -37,7 +37,7 @@ def get_kanji_drills(token, level=1, size=50, seed=None, only=None):
     stop = min(start + size, len(kanji))
     kanji = kanji[start:stop]
 
-    if only is not None and only is not '':
+    if only is not None and only != '':
         only = [k for k in only]
         kanji = [k for k in kanji if k['kanji'] in only]
 
