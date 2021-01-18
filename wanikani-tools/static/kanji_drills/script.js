@@ -3,7 +3,11 @@ $(function () {
     function getParams() {
         // gets url parameters and builds an object
         return _.chain(location.search.slice(1).split('&'))
-            .map(function (item) { if (item) { return item.split('='); } })
+            .map(function (item) {
+                if (item) {
+                    return item.split('=');
+                }
+            })
             .compact()
             .fromPairs()
             .value();
@@ -36,7 +40,7 @@ $(function () {
             $(this).find(".kj-reading").addClass("invisible");
             $(this).find(".kj-meaning").addClass("invisible");
         })
-        .click(function(e) {
+        .click(function (e) {
             var mouseover = isMouseOver();
             if (mouseover) return;
 
@@ -67,7 +71,7 @@ $(function () {
 
     $("a.kj-on-off-toggle")
         .data('toggle', false)
-        .click(function(e) {
+        .click(function (e) {
             var toggle = isToggle();
 
             if (!toggle) {
@@ -85,7 +89,7 @@ $(function () {
 
     $("a.kj-show-hide-toggle")
         .data('toggle', false)
-        .click(function() {
+        .click(function () {
             var toggle = $(this).data('toggle');
             console.log(toggle);
 
@@ -110,26 +114,47 @@ $(function () {
 
     // ADVANCED MODAL BEHAVIOUR
 
+    function updateOnlySize() {
+        $(".kj-adv-only-size").html("Size: " + $("#adv-only").val().length || 0);
+    }
+
     $(".kj-show-advanced-modal")
-        .click(function() {
+        .click(function () {
             var params = getParams();
 
             $('#adv-level').val(params['level'] || 1);
             $('#adv-size').val(params['size'] || 50);
             $('#adv-only').val(decodeURI(params['only'] || ''));
-
+            updateOnlySize();
             $("#advancedModal").modal("show");
         });
 
-    $(".kj-get-selected")
+    $(".kj-level-up")
         .click(function() {
+            $('#adv-level').val(parseInt($('#adv-level').val(), 10) + 1);
+        });
+
+    $(".kj-level-down")
+        .click(function() {
+            $('#adv-level').val(Math.max($('#adv-level').val() - 1, 1));
+        });
+
+    $(".kj-set-size")
+        .click(function() {
+            $('#adv-size').val($(this).data("size"));
+        });
+
+    $(".kj-get-selected")
+        .click(function () {
             $('#adv-only').val(
                 $(".kj-element.kj-element-selected .kj-character").text()
             );
+
+            updateOnlySize();
         });
 
     $(".kj-advanced-go")
-        .click(function() {
+        .click(function () {
 
             var token = getParams()['token'];
 
@@ -145,7 +170,10 @@ $(function () {
             $("#advancedModal").modal("hide");
         });
 
-
+    $("#adv-only")
+        .on("input change", function (e) {
+            updateOnlySize();
+        })
 
     // MOUSEOVER BEHAVIOUR
 
