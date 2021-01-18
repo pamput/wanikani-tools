@@ -40,7 +40,7 @@ $(function () {
             var mouseover = isMouseOver();
             if (mouseover) return;
 
-            if (e.ctrlKey) {
+            if (e.ctrlKey || e.metaKey) {
 
                 // Toggle selection
                 if ($(this).closest(".kj-element").hasClass('kj-element-selected')) {
