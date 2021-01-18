@@ -4,12 +4,16 @@
     }
 }
 
+.container {
+    margin-top: 10px
+}
+
 .hidden {
     visibility: hidden;
 }
 
 .kj-container {
-    margin: 50px 0px 50px 0px;
+    margin: 20px 0px 50px 0px;
     display: block;
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-size: 14px;

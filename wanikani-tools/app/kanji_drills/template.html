@@ -18,34 +18,38 @@
 <body>
 
 <div class="container">
-    <div class="row">
-        <span>Level: ${info['level']}/${info['levels']}</span>
-        <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+    <div class="row justify-content-center">
+        <div class="nav">
+            <form class="form-inline">
+                <div class="input-group">
+                    <span class="input-group-text">Level: ${info['level']}/${info['levels']}</span>
+                    <div class="input-group-append">
+                        <a class="btn btn-success" type="button" href="${info['prev_level_url']}"><< Prev</a>
+                        <a class="btn btn-success" type="button" href="${info['next_level_url']}">Next >></a>
+                    </div>
+                </div>
+                <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
 
-        <a href="${info['prev_level_url']}"><< Prev</a>
-        <span> | </span>
+                <div class="input-group">
+                    <a class="btn btn-warning kj-on-off-toggle" href="#">ON/OFF</a>
+                    <div class="input-group-append">
+                        <a class="btn btn-warning kj-random" href="#">RAND</a>
+                        <a class="btn btn-warning kj-show-hide-toggle" href="#"
+                        title="You can select a kanji by pressing CTRL+CLICK. All NOT selected kanji will show/hide">SHOW/HIDE</a>
+                        <a class="btn btn-info kj-show-advanced-modal" href="#">
+                            ADVANCED
+                        </a>
+                        <div class="input-group-text">
+                            <div class="form-check">
+                                <input type="checkbox" id="mouse-over" class="form-check-input kj-mouseover-toggle"/>
+                                <label class="form-check-label" for="mouse-over">MOUSEOVER</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
 
-        <a href="${info['next_level_url']}">Next >></a>
-        <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-
-        <a class="kj-on-off-toggle" href="#">ON/OFF</a>
-        <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-
-        <a class="kj-random" href="#">RAND</a>
-        <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-
-        <a class="kj-show-hide-toggle" href="#"
-        title="You can select a kanji by pressing CTRL+CLICK. All NOT selected kanji will show/hide">SHOW/HIDE</a>
-        <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-
-        <a class="kj-show-advanced-modal" href="#">
-            ADVANCED
-        </a>
-        <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-
-        <div class="form-check">
-            <input type="checkbox" id="mouse-over" class="form-check-input kj-mouseover-toggle"/>
-            <label class="form-check-label" for="mouse-over">MOUSEOVER</label>
+            </form>
         </div>
     </div>
     <div class="row">
